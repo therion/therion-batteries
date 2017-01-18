@@ -1,38 +1,53 @@
 [Setup]
-#include "common.iss"
+AppName=Therion
+AppVerName=Therion
+DefaultDirName={pf}\Therion
+DefaultGroupName=Therion
+UninstallDisplayName=Therion
+UninstallDisplayIcon={app}\therion.exe
+ShowLanguageDialog=no
+LanguageDetectionMethod=none
+;PrivilegesRequired=poweruser
+AppPublisher=Stacho Mudrak, Martin Budaj
+AppPublisherURL=http://therion.speleo.sk
+SourceDir=.
+OutputDir=..\therion.bin
+SetupIconFile=..\therion\therion.ico
+WizardSmallImageFile=therion.bmp
+WizardImageFile=mapa.bmp
+WizardImageStretch=false
+AppID=therion-4.66920160910299
 OutputBaseFilename=therion-setup
 ChangesAssociations=true
 SolidCompression=yes
 
 [Files]
 
-Source: therion.bin\therion.exe; DestDir: {app}; BeforeInstall: DeleteBatteries
-Source: therion\therion.ini; DestDir: {app}; Flags: onlyifdoesntexist
-Source: therion\therion.ini; DestDir: {app}; Destname: therion.new.ini
+Source: ..\therion.bin\therion.exe; DestDir: {app}; BeforeInstall: DeleteBatteries
+Source: ..\therion\therion.ini; DestDir: {app}; Flags: onlyifdoesntexist
+Source: ..\therion\therion.ini; DestDir: {app}; Destname: therion.new.ini
 
-Source: therion.bin\xtherion\xtherion.tcl; DestDir: {app}
-Source: therion\xtherion\xtherion.ini; DestDir: {app}; Flags: onlyifdoesntexist
-Source: therion\xtherion\xtherion.ini; DestDir: {app}; Destname: xtherion.new.ini
+Source: ..\therion.bin\xtherion\xtherion.tcl; DestDir: {app}
+Source: ..\therion\xtherion\xtherion.ini; DestDir: {app}; Flags: onlyifdoesntexist
+Source: ..\therion\xtherion\xtherion.ini; DestDir: {app}; Destname: xtherion.new.ini
 
-Source: therion.prj\Setup\bin\*.*; DestDir: {app}\bin
-Source: therion.prj\AppCtrl\appctrl.exe; DestDir: {app}\bin
-Source: therion.prj\Setup\lib\*.*; DestDir: {app}\lib; Flags: recursesubdirs
-Source: therion.prj\Setup\mingwlib\*.*; DestDir: {app}
+Source: bin\*.*; DestDir: {app}\bin
+Source: lib\*.*; DestDir: {app}\lib; Flags: recursesubdirs
 
-Source: therion.prj\Setup\bin\win32\*.*; DestDir: {app}\bin\win32
-Source: therion.prj\Setup\texmf\*.*; DestDir: {app}\texmf; Flags: recursesubdirs
+Source: bin\win32\*.*; DestDir: {app}\bin\win32
+Source: texmf\*.*; DestDir: {app}\texmf; Flags: recursesubdirs
 
-Source: therion.bin\thbook\thbook.pdf; DestDir: {app}
-Source: therion\CHANGES; DestDir: {app}; Destname: CHANGES.txt
-Source: therion\README; DestDir: {app}; Destname: README.txt
-Source: therion\COPYING; DestDir: {app}; Destname: COPYING.txt
+Source: ..\therion.bin\thbook\thbook.pdf; DestDir: {app}
+Source: ..\therion\CHANGES; DestDir: {app}; Destname: CHANGES.txt
+Source: ..\therion\README; DestDir: {app}; Destname: README.txt
+Source: ..\therion\COPYING; DestDir: {app}; Destname: COPYING.txt
 
-Source: therion\loch\locale\*.mo; DestDir: {app}; Flags: recursesubdirs
-Source: therion\loch\help\*.chm; DestDir: {app}; Flags: recursesubdirs
-Source: therion\loch\lochfile.ico; DestDir: {app}
-Source: therion.bin\loch\loch.exe; DestDir: {app}
+Source: ..\therion\loch\locale\*.mo; DestDir: {app}; Flags: recursesubdirs
+Source: ..\therion\loch\help\*.chm; DestDir: {app}; Flags: recursesubdirs
+Source: ..\therion\loch\lochfile.ico; DestDir: {app}
+Source: ..\therion.bin\loch\loch.exe; DestDir: {app}
 
-Source: therion\samples\*.*; DestDir: {app}\samples; Flags: recursesubdirs
+Source: ..\therion\samples\*.*; DestDir: {app}\samples; Flags: recursesubdirs
 
 [Icons]
 Name: "{group}\ Loch"; Filename: {app}\loch.exe; IconFileName: {app}\loch.exe; WorkingDir: {app}\samples
@@ -81,4 +96,3 @@ DelTree(ExpandConstant('{app}\bin'), true, true, true);
 DelTree(ExpandConstant('{app}\lib'), true, true, true);
 DelTree(ExpandConstant('{app}\texmf'), true, true, true);
 end;
-

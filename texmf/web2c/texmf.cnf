@@ -1,0 +1,124 @@
+% TeX Live texmf.cnf modified for Therion
+
+TEXMFMAIN = $SELFAUTOPARENT/texmf
+TEXMF = !!$TEXMFMAIN
+SYSTEXMF = $TEXMF
+TEXMFDBS = $TEXMF
+WEB2C =	$TEXMF/web2c
+
+TEXINPUTS = $TEXMF/tex;.
+
+MPINPUTS = .
+
+TEXFORMATS =	$TEXMF/web2c
+MPMEMS     =	$TEXFORMATS
+
+TFMFONTS =	$TEXMF/fonts/tfm//;.
+T1FONTS =	$TEXMF/fonts/type1//;.
+TTFFONTS =	.
+TEXFONTMAPS =   $TEXMF/fonts/
+
+MISSFONT_LOG = 
+
+TEX_HUSH = none
+
+shell_escape = f
+
+openout_any = p
+openin_any = a
+parse_first_line = f
+
+src_specials =			none
+
+MKTEXTEX =			0
+MKTEXPK =			0
+MKTEXMF =			0
+MKTEXTFM =			0
+
+MPXMAINCMD = "$SELFAUTOLOC/pdftex.exe" --output-format=dvi
+
+%-----------------------------------------------------------------
+% Memory. Must be less than 8,000,000 total.
+% 
+% main_memory is relevant only to initex, extra_mem_* only to non-ini.
+% Thus, have to redump the .fmt file after changing main_memory; to add
+% to existing fmt files, increase extra_mem_*.  (To get an idea of how
+% much, try \tracingstats=2 in your TeX source file;
+% web2c/tests/memtest.tex might also be interesting.)
+% 
+% To increase space for boxes (as might be needed by, e.g., PiCTeX),
+% increase extra_mem_bot.
+% 
+% 
+main_memory =			1500000 % words of inimemory available; also applies to inimf&mp
+extra_mem_bot    =		0 % extra high memory for chars, tokens, etc.
+extra_mem_top    =		2000000 % extra low memory for boxes, glue, breakpoints, etc.
+
+% Words of font info for TeX (total size of all TFM files, approximately). 
+font_mem_size =			1000000
+
+% Extra space for the hash table of control sequences (which allows 10K
+% names as distributed).
+hash_extra =			50000
+
+% Minimum pool space after TeX/MP's own strings; must be at least
+% 25000 less than pool_size, but doesn't need to be nearly that large.
+string_vacancies =		90000
+pool_free =			47500 % min pool space left after loading .fmt
+pool_size  =			1250000
+
+%  allow for a lot of hyphenations
+trie_size =			500000
+
+% Buffer size.  TeX uses the buffer to contain input lines, but macro
+% expansion works by writing material into the buffer and reparsing the
+% line.  As a consequence, certain constructs require the buffer to be
+% very large.  As distributed, the size is 50000; most documents can be
+% handled within a tenth of this size.
+buf_size =			200000
+
+% Parameter specific to MetaPost.
+% Maximum number of knots between breakpoints of a path.
+% Set to 2000 by default.
+% path_size.mpost =			10000
+
+% These are pdftex-specific.
+obj_tab_size =			300000 % PDF objects
+dest_names_size=300000 % destinations
+
+% These work best if they are the same as the I/O buffer size, but it
+% doesn't matter much.  Must be a multiple of 8.
+dvi_buf_size =			16384    % TeX
+gf_buf_size =			16384     % MF
+
+% It's probably inadvisable to change these. At any rate, we must have:
+% 45 < error_line      < 255;
+% 30 < half_error_line < error_line - 15;
+% 60 <=			max_print_line;
+% These apply to Metafont and MetaPost as well.
+error_line =			79
+half_error_line =		50
+max_print_line =		79
+max_in_open =			15   % simultaneous input files and error insertions
+hyph_size =			1000 % number of hyphenation exceptions, >610 and <32767
+
+
+%-----------------------------------------------------------------
+%
+main_memory.mf           =		800000
+main_memory.mpost =			1000000
+pool_size.mpost =			500000
+
+% Total number of fonts. Must be >= 50 and <= 2000 (without tex.ch changes).
+font_max         =              2000
+
+% Max number of characters in all strings, including all error messages,
+% help texts, font names, file names, control sequences.  
+% These values apply to TeX and MP.
+
+max_strings      =		100000 % max number of strings
+nest_size =			500 % simultaneous semantic levels (e.g., groups)
+param_size       =		10000 % simultaneous macro parameters
+save_size        =		50000 % for saving values outside current group
+stack_size       =		5000 % simultaneous input sources
+
