@@ -67,15 +67,22 @@ Root: HKCR; Subkey: LochFile; ValueType: string; ValueName: ; ValueData: Loch 3D
 Root: HKCR; Subkey: LochFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\lochfile.ico; Flags: noerror
 Root: HKCR; Subkey: LochFile\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\loch.exe"" ""%1"""; Flags: noerror
 
-Root: HKCU; Subkey: SOFTWARE\Classes\.th; ValueType: string; ValueName: ; ValueData: TherionFile; Flags: uninsdeletevalue
-Root: HKCU; Subkey: SOFTWARE\Classes\.th2; ValueType: string; ValueName: ; ValueData: TherionFile; Flags: uninsdeletevalue
-Root: HKCU; Subkey: SOFTWARE\Classes\.lox; ValueType: string; ValueName: ; ValueData: LochFile; Flags: uninsdeletevalue
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionFile; ValueType: string; ValueName: ; ValueData: Therion data file; Flags: uninsdeletekey
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\therion.exe,0
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionFile\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""
-Root: HKCU; Subkey: SOFTWARE\Classes\LochFile; ValueType: string; ValueName: ; ValueData: Loch 3D file; Flags: uninsdeletekey
-Root: HKCU; Subkey: SOFTWARE\Classes\LochFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\lochfile.ico
-Root: HKCU; Subkey: SOFTWARE\Classes\LochFile\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\loch.exe"" ""%1"""
+Root: HKCU; Subkey: SOFTWARE\Classes\.thconfig; ValueType: string; ValueData: TherionConfig; Flags: uninsdeletevalue
+Root: HKCU; Subkey: SOFTWARE\Classes\.th; ValueType: string; ValueData: TherionData; Flags: uninsdeletevalue
+Root: HKCU; Subkey: SOFTWARE\Classes\.th2; ValueType: string; ValueData: TherionScraps; Flags: uninsdeletevalue
+Root: HKCU; Subkey: SOFTWARE\Classes\.lox; ValueType: string; ValueData: LochFile; Flags: uninsdeletevalue
+Root: HKCU; Subkey: SOFTWARE\Classes\TherionConfig; ValueType: string; ValueData: Therion configuration; Flags: uninsdeletekey
+Root: HKCU; Subkey: SOFTWARE\Classes\TherionConfig\DefaultIcon; ValueType: string; ValueData: {app}\therion.exe,0
+Root: HKCU; Subkey: SOFTWARE\Classes\TherionConfig\shell\open\command; ValueType: string; ValueData: {app}\bin\wish86t.exe {app}\xtherion.tcl %1
+Root: HKCU; Subkey: SOFTWARE\Classes\TherionData; ValueType: string; ValueData: Therion data file; Flags: uninsdeletekey
+Root: HKCU; Subkey: SOFTWARE\Classes\TherionData\DefaultIcon; ValueType: string; ValueData: {app}\therion.exe,0
+Root: HKCU; Subkey: SOFTWARE\Classes\TherionData\shell\open\command; ValueType: string; ValueData: {app}\bin\wish86t.exe {app}\xtherion.tcl %1
+Root: HKCU; Subkey: SOFTWARE\Classes\TherionScraps; ValueType: string; ValueData: Therion scraps file; Flags: uninsdeletekey
+Root: HKCU; Subkey: SOFTWARE\Classes\TherionScraps\DefaultIcon; ValueType: string; ValueData: {app}\therion.exe,0
+Root: HKCU; Subkey: SOFTWARE\Classes\TherionScraps\shell\open\command; ValueType: string; ValueData: {app}\bin\wish86t.exe {app}\xtherion.tcl %1
+Root: HKCU; Subkey: SOFTWARE\Classes\LochFile; ValueType: string; ValueData: Loch 3D file; Flags: uninsdeletekey
+Root: HKCU; Subkey: SOFTWARE\Classes\LochFile\DefaultIcon; ValueType: string; ValueData: {app}\lochfile.ico
+Root: HKCU; Subkey: SOFTWARE\Classes\LochFile\shell\open\command; ValueType: string; ValueData: {app}\loch.exe %1
 
 Root: HKLM; Subkey: SOFTWARE\Therion; ValueType: string; ValueName: InstallDir; ValueData: {app}; Flags: uninsdeletekey noerror
 Root: HKLM; Subkey: SOFTWARE\Therion; ValueType: dword; ValueName: TclTk; ValueData: 1; Flags: uninsdeletekey noerror
