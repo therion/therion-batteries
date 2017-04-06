@@ -7,7 +7,6 @@ UninstallDisplayName=Therion
 UninstallDisplayIcon={app}\therion.exe
 ShowLanguageDialog=no
 LanguageDetectionMethod=none
-;PrivilegesRequired=poweruser
 AppPublisher=Stacho Mudrak, Martin Budaj
 AppPublisherURL=http://therion.speleo.sk
 SourceDir=.
@@ -20,6 +19,7 @@ AppID=therion-4.66920160910299
 OutputBaseFilename=therion-setup
 ChangesAssociations=true
 SolidCompression=yes
+PrivilegesRequired=none
 
 [Files]
 
@@ -50,56 +50,129 @@ Source: ..\therion.bin\loch\loch.exe; DestDir: {app}
 Source: ..\therion\samples\*.*; DestDir: {app}\samples; Flags: recursesubdirs
 
 [Icons]
-Name: "{group}\ Loch"; Filename: {app}\loch.exe; IconFileName: {app}\loch.exe; WorkingDir: {app}\samples
-Name: "{group}\ XTherion"; Filename: {app}\bin\wish86t.exe; Parameters: """{app}\xtherion.tcl"""; IconFileName: {app}\therion.exe; WorkingDir: {app}\samples
-Name: "{group}\The Therion Book"; Filename: "{app}\thbook.pdf"
-Name: "{group}\NEWS"; Filename: write.exe; Parameters: """{app}\CHANGES.txt"""
-Name: {group}\Uninstall Therion; Filename: {uninstallexe}
+Name: "{code:GetIconPath}\Loch"; Filename: {app}\loch.exe; IconFileName: {app}\loch.exe; WorkingDir: {app}\samples
+Name: "{code:GetIconPath}\XTherion"; Filename: {app}\bin\wish86t.exe; Parameters: """{app}\xtherion.tcl"""; IconFileName: {app}\therion.exe; WorkingDir: {app}\samples
+Name: "{code:GetIconPath}\The Therion Book"; Filename: "{app}\thbook.pdf"
+Name: "{code:GetIconPath}\NEWS"; Filename: write.exe; Parameters: """{app}\CHANGES.txt"""
+Name: "{code:GetIconPath}\Uninstall Therion"; Filename: {uninstallexe}
 
 [Registry]
-Root: HKCR; Subkey: .th; ValueType: string; ValueName: ; ValueData: TherionFile; Flags: uninsdeletevalue noerror
-Root: HKCR; Subkey: .th2; ValueType: string; ValueName: ; ValueData: TherionFile; Flags: uninsdeletevalue noerror
-Root: HKCR; Subkey: .lox; ValueType: string; ValueName: ; ValueData: LochFile; Flags: uninsdeletevalue noerror
-Root: HKCR; Subkey: TherionFile; ValueType: string; ValueName: ; ValueData: Therion data file; Flags: uninsdeletekey noerror
-Root: HKCR; Subkey: TherionFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\therion.exe,0; Flags: noerror
-Root: HKCR; Subkey: TherionFile\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Flags: noerror
-Root: HKCR; Subkey: LochFile; ValueType: string; ValueName: ; ValueData: Loch 3D file; Flags: uninsdeletekey noerror
-Root: HKCR; Subkey: LochFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\lochfile.ico; Flags: noerror
-Root: HKCR; Subkey: LochFile\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\loch.exe"" ""%1"""; Flags: noerror
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\.thconfig"; ValueType: string; ValueData: "TherionConfig"; Flags: uninsdeletevalue; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\.th"; ValueType: string; ValueData: "TherionData"; Flags: uninsdeletevalue; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\.th2"; ValueType: string; ValueData: "TherionScraps"; Flags: uninsdeletevalue; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\.lox"; ValueType: string; ValueData: "LochFile"; Flags: uninsdeletevalue; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionConfig"; ValueType: string; ValueData: "Therion configuration"; Flags: uninsdeletekey; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionConfig\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionConfig\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionData"; ValueType: string; ValueData: "Therion data file"; Flags: uninsdeletekey; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionData\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionData\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionScraps"; ValueType: string; ValueData: "Therion scraps file"; Flags: uninsdeletekey; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionScraps\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionScraps\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\LochFile"; ValueType: string; ValueData: "Loch 3D file"; Flags: uninsdeletekey; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\LochFile\DefaultIcon"; ValueType: string; ValueData: "{app}\lochfile.ico"; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\LochFile\shell\open\command"; ValueType: string; ValueData: """{app}\loch.exe"" ""%1"""; Check: InstallForAll
 
-Root: HKCU; Subkey: SOFTWARE\Classes\.thconfig; ValueType: string; ValueData: TherionConfig; Flags: uninsdeletevalue
-Root: HKCU; Subkey: SOFTWARE\Classes\.th; ValueType: string; ValueData: TherionData; Flags: uninsdeletevalue
-Root: HKCU; Subkey: SOFTWARE\Classes\.th2; ValueType: string; ValueData: TherionScraps; Flags: uninsdeletevalue
-Root: HKCU; Subkey: SOFTWARE\Classes\.lox; ValueType: string; ValueData: LochFile; Flags: uninsdeletevalue
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionConfig; ValueType: string; ValueData: Therion configuration; Flags: uninsdeletekey
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionConfig\DefaultIcon; ValueType: string; ValueData: {app}\therion.exe,0
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionConfig\shell\open\command; ValueType: string; ValueData: {app}\bin\wish86t.exe {app}\xtherion.tcl %1
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionData; ValueType: string; ValueData: Therion data file; Flags: uninsdeletekey
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionData\DefaultIcon; ValueType: string; ValueData: {app}\therion.exe,0
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionData\shell\open\command; ValueType: string; ValueData: {app}\bin\wish86t.exe {app}\xtherion.tcl %1
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionScraps; ValueType: string; ValueData: Therion scraps file; Flags: uninsdeletekey
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionScraps\DefaultIcon; ValueType: string; ValueData: {app}\therion.exe,0
-Root: HKCU; Subkey: SOFTWARE\Classes\TherionScraps\shell\open\command; ValueType: string; ValueData: {app}\bin\wish86t.exe {app}\xtherion.tcl %1
-Root: HKCU; Subkey: SOFTWARE\Classes\LochFile; ValueType: string; ValueData: Loch 3D file; Flags: uninsdeletekey
-Root: HKCU; Subkey: SOFTWARE\Classes\LochFile\DefaultIcon; ValueType: string; ValueData: {app}\lochfile.ico
-Root: HKCU; Subkey: SOFTWARE\Classes\LochFile\shell\open\command; ValueType: string; ValueData: {app}\loch.exe %1
+Root: "HKLM"; Subkey: "SOFTWARE\Therion"; ValueType: string; ValueName: "InstallDir"; ValueData: "{app}"; Flags: uninsdeletekey; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "TclTk"; ValueData: "1"; Flags: uninsdeletekey; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "TeX"; ValueData: "3"; Flags: uninsdeletekey; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "ImageMagick"; ValueData: "1"; Flags: uninsdeletekey; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "AppCtrl"; ValueData: "1"; Flags: uninsdeletekey; Check: InstallForAll
 
-Root: HKLM; Subkey: SOFTWARE\Therion; ValueType: string; ValueName: InstallDir; ValueData: {app}; Flags: uninsdeletekey noerror
-Root: HKLM; Subkey: SOFTWARE\Therion; ValueType: dword; ValueName: TclTk; ValueData: 1; Flags: uninsdeletekey noerror
-Root: HKLM; Subkey: SOFTWARE\Therion; ValueType: dword; ValueName: TeX; ValueData: 3; Flags: uninsdeletekey noerror
-Root: HKLM; Subkey: SOFTWARE\Therion; ValueType: dword; ValueName: ImageMagick; ValueData: 1; Flags: uninsdeletekey noerror
-Root: HKLM; Subkey: SOFTWARE\Therion; ValueType: dword; ValueName: AppCtrl; ValueData: 1; Flags: uninsdeletekey noerror
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\.thconfig"; ValueType: string; ValueData: "TherionConfig"; Flags: uninsdeletevalue; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\.th"; ValueType: string; ValueData: "TherionData"; Flags: uninsdeletevalue; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\.th2"; ValueType: string; ValueData: "TherionScraps"; Flags: uninsdeletevalue; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\.lox"; ValueType: string; ValueData: "LochFile"; Flags: uninsdeletevalue; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionConfig"; ValueType: string; ValueData: "Therion configuration"; Flags: uninsdeletekey; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionConfig\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionConfig\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionData"; ValueType: string; ValueData: "Therion data file"; Flags: uninsdeletekey; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionData\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionData\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionScraps"; ValueType: string; ValueData: "Therion scraps file"; Flags: uninsdeletekey; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionScraps\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionScraps\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\LochFile"; ValueType: string; ValueData: "Loch 3D file"; Flags: uninsdeletekey; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\LochFile\DefaultIcon"; ValueType: string; ValueData: "{app}\lochfile.ico"; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\LochFile\shell\open\command"; ValueType: string; ValueData: """{app}\loch.exe"" ""%1"""; Check: not InstallForAll
 
-Root: HKCU; Subkey: SOFTWARE\Therion; ValueType: string; ValueName: InstallDir; ValueData: {app}; Flags: uninsdeletekey
-Root: HKCU; Subkey: SOFTWARE\Therion; ValueType: dword; ValueName: TclTk; ValueData: 1; Flags: uninsdeletekey
-Root: HKCU; Subkey: SOFTWARE\Therion; ValueType: dword; ValueName: TeX; ValueData: 3; Flags: uninsdeletekey
-Root: HKCU; Subkey: SOFTWARE\Therion; ValueType: dword; ValueName: ImageMagick; ValueData: 1; Flags: uninsdeletekey
-Root: HKCU; Subkey: SOFTWARE\Therion; ValueType: dword; ValueName: AppCtrl; ValueData: 1; Flags: uninsdeletekey
+Root: "HKCU"; Subkey: "SOFTWARE\Therion"; ValueType: string; ValueName: "InstallDir"; ValueData: "{app}"; Flags: uninsdeletekey; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "TclTk"; ValueData: "1"; Flags: uninsdeletekey; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "TeX"; ValueData: "3"; Flags: uninsdeletekey; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "ImageMagick"; ValueData: "1"; Flags: uninsdeletekey; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "AppCtrl"; ValueData: "1"; Flags: uninsdeletekey; Check: not InstallForAll
 
 [Code]
+var
+  Path, IconPath: String;  
+  InstallTypePage: TInputOptionWizardPage;
+  rbUser, rbAll: TNewRadioButton;
+
 procedure DeleteBatteries;
 begin
-DelTree(ExpandConstant('{app}\bin'), true, true, true);
-DelTree(ExpandConstant('{app}\lib'), true, true, true);
-DelTree(ExpandConstant('{app}\texmf'), true, true, true);
+  DelTree(ExpandConstant('{app}\bin'), true, true, true);
+  DelTree(ExpandConstant('{app}\lib'), true, true, true);
+  DelTree(ExpandConstant('{app}\texmf'), true, true, true);
+end;
+
+procedure InitializeWizard;
+begin
+  InstallTypePage := CreateInputOptionPage(wpWelcome, 'Installation type', '',
+  'Please select if you want the app installed for all users or just the current one.',
+  true, False);
+
+  // Add the radio buttons and set the initial values
+  rbAll := TNewRadioButton.Create(InstallTypePage);
+  rbAll.Parent := InstallTypePage.Surface;
+  rbAll.Top := 30;
+  rbAll.Width := 300;
+  rbAll.Caption := 'Install for all users (requires Admin privileges)';
+  rbAll.Checked := IsAdminLoggedOn;
+  rbAll.Enabled := IsAdminLoggedOn;
+      
+  rbUser := TNewRadioButton.Create(InstallTypePage);
+  rbUser.Parent := InstallTypePage.Surface;
+  rbUser.Top := 55;
+  rbUser.Width := 150;
+  rbUser.Caption := 'Install only for me';
+  rbUser.Checked := not rbAll.Checked;
+end;
+
+function NextButtonClick(CurPageID: Integer): Boolean;
+begin
+  Result := True;
+  if CurPageID = InstallTypePage.ID then
+  begin
+    if rbAll.Checked then
+    begin
+      IconPath := ExpandConstant('{commonstartmenu}') + '\' + '{#SetupSetting("DefaultGroupName")}';
+      Path := ExpandConstant('{pf}') + '\' + '{#SetupSetting("AppName")}';
+    end else
+    begin
+      IconPath := ExpandConstant('{userstartmenu}') + '\' + '{#SetupSetting("DefaultGroupName")}';
+      Path := ExpandConstant('{localappdata}') + '\' + '{#SetupSetting("AppName")}';
+    end;
+    // Set the suggested path depending on the install type
+    WizardForm.DirEdit.Text := Path;
+  end;
+  
+  // Build the icon path after the user selects the start menu group name
+  if CurPageID = wpSelectProgramGroup then
+  begin
+    if rbAll.Checked then
+      IconPath := ExpandConstant('{commonstartmenu}') + '\' + WizardGroupValue
+    else
+      IconPath := ExpandConstant('{userstartmenu}') + '\' + WizardGroupValue;
+  end;
+end;
+
+function InstallForAll: Boolean;
+begin
+  Result := rbAll.Checked;
+end;
+
+function GetIconPath(Value: string): String;
+begin
+  Result := IconPath;
 end;
