@@ -1,7 +1,7 @@
 [Setup]
 AppName=Therion
 AppVerName=Therion
-DefaultDirName={pf}\Therion
+DefaultDirName={commonpf}\Therion
 DefaultGroupName=Therion
 UninstallDisplayName=Therion
 UninstallDisplayIcon={app}\therion.exe
@@ -128,8 +128,8 @@ begin
   rbAll.Top := 30;
   rbAll.Width := 300;
   rbAll.Caption := 'Install for all users (requires Admin privileges)';
-  rbAll.Checked := IsAdminLoggedOn;
-  rbAll.Enabled := IsAdminLoggedOn;
+  rbAll.Checked := IsAdmin;
+  rbAll.Enabled := IsAdmin;
       
   rbUser := TNewRadioButton.Create(InstallTypePage);
   rbUser.Parent := InstallTypePage.Surface;
@@ -147,7 +147,7 @@ begin
     if rbAll.Checked then
     begin
       IconPath := ExpandConstant('{commonstartmenu}') + '\' + '{#SetupSetting("DefaultGroupName")}';
-      Path := ExpandConstant('{pf}') + '\' + '{#SetupSetting("AppName")}';
+      Path := ExpandConstant('{commonpf}') + '\' + '{#SetupSetting("AppName")}';
     end else
     begin
       IconPath := ExpandConstant('{userstartmenu}') + '\' + '{#SetupSetting("DefaultGroupName")}';
