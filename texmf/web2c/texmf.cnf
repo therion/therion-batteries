@@ -8,17 +8,19 @@ WEB2C =	$TEXMF/web2c
 
 TEXINPUTS = $TEXMF/tex;.
 
-MPINPUTS = .
+MPINPUTS = $TEXMF/mpost;.
 
 TEXFORMATS =	$TEXMF/web2c
-MPMEMS     =	$TEXFORMATS
+% MPMEMS     =	$TEXFORMATS
 
 TFMFONTS =	$TEXMF/fonts/tfm//;.
 T1FONTS =	$TEXMF/fonts/type1//;.
-TTFFONTS =	.
+TTFONTS =	.
+OPENTYPEFONTS = .
 TEXFONTMAPS =   $TEXMF/fonts/
+ENCFONTS = .
 
-MISSFONT_LOG = 
+MISSFONT_LOG = 0
 
 TEX_HUSH = none
 
@@ -100,7 +102,7 @@ error_line =			79
 half_error_line =		50
 max_print_line =		79
 max_in_open =			15   % simultaneous input files and error insertions
-hyph_size =			1000 % number of hyphenation exceptions, >610 and <32767
+hyph_size =			5000 % number of hyphenation exceptions, >610 and <32767
 
 
 %-----------------------------------------------------------------

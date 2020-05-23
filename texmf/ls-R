@@ -1,16 +1,21 @@
 % ls-R -- filename database for kpathsea; do not change this line.
-/dev/null
 
 ./:
+fonts
+LICENSE.TL
 ls-R
-
-./tex:
-glyphtounicode.tex
+mpost
+README.txt
+tex
+web2c
 
 ./fonts:
-pdftex.map
 glyphlist.txt
+pdftex.map
+texglyphlist-g2u.txt
 texglyphlist.txt
+tfm
+type1
 
 ./fonts/tfm:
 cmb10.tfm
@@ -24,7 +29,12 @@ cmbx8.tfm
 cmbx9.tfm
 cmbxsl10.tfm
 cmbxti10.tfm
+cmcbx10.tfm
 cmcsc10.tfm
+cmcss10.tfm
+cmcssi10.tfm
+cmcti10.tfm
+cmcyr10.tfm
 cmdunh10.tfm
 cmex10.tfm
 cmff10.tfm
@@ -149,11 +159,6 @@ logo8.tfm
 logo9.tfm
 logobf10.tfm
 logosl10.tfm
-cmcbx10.tfm
-cmcss10.tfm
-cmcssi10.tfm
-cmcti10.tfm
-cmcyr10.tfm
 
 ./fonts/type1:
 cmb10.pfb
@@ -167,7 +172,12 @@ cmbx8.pfb
 cmbx9.pfb
 cmbxsl10.pfb
 cmbxti10.pfb
+cmcbx10.pfb
 cmcsc10.pfb
+cmcss10.pfb
+cmcssi10.pfb
+cmcti10.pfb
+cmcyr10.pfb
 cmdunh10.pfb
 cmex10.pfb
 cmff10.pfb
@@ -292,17 +302,15 @@ logo8.pfb
 logo9.pfb
 logobf10.pfb
 logosl10.pfb
-cmcbx10.pfb
-cmcss10.pfb
-cmcssi10.pfb
-cmcti10.pfb
-cmcyr10.pfb
+
+./mpost:
+mpost.mp
+plain.mp
 
 ./tex:
-pdftex.cfg
+glyphtounicode.tex
 
 ./web2c:
 cp8bit.tcx
-mpost.mem
 pdftex.fmt
 texmf.cnf
