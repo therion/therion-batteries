@@ -37,6 +37,24 @@ Source: lib\*.*; DestDir: {app}\lib; Flags: recursesubdirs
 Source: bin\win32\*.*; DestDir: {app}\bin\win32
 Source: texmf\*.*; DestDir: {app}\texmf; Flags: recursesubdirs
 
+#define proj_ver ReadIni(SourcePath+'../therion/innosetup.ini', 'PROJ', 'version', '0')
+#if proj_ver == "0"
+  #error Could not determine PROJ version
+#elif proj_ver == "5"
+  Source: _proj\proj-5\*.*; DestDir: {app}\lib\proj-5;
+  Source: _proj\proj-datumgrid\*.*; DestDir: {app}\lib\proj-5;
+  Source: _proj\doc\*.*; DestDir: {app}\lib\proj-5\doc;
+#elif proj_ver == "6"
+  Source: _proj\proj-6\*.*; DestDir: {app}\lib\proj-6;
+  Source: _proj\proj-datumgrid\*.*; DestDir: {app}\lib\proj-6;
+  Source: _proj\doc\*.*; DestDir: {app}\lib\proj-6\doc;
+#elif proj_ver == "7"
+  Source: _proj\proj-7\*.*; DestDir: {app}\lib\proj-7;
+  Source: _proj\doc\*.*; DestDir: {app}\lib\proj-7\doc;
+#else
+  #error PROJ version too recent
+#endif
+
 Source: ..\therion.bin\thbook\thbook.pdf; DestDir: {app}
 Source: ..\therion\CHANGES; DestDir: {app}; Destname: CHANGES.txt
 Source: ..\therion\README; DestDir: {app}; Destname: README.txt
