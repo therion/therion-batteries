@@ -37,7 +37,7 @@ Source: lib\*.*; DestDir: {app}\lib; Flags: recursesubdirs
 Source: bin\win32\*.*; DestDir: {app}\bin\win32
 Source: texmf\*.*; DestDir: {app}\texmf; Flags: recursesubdirs
 
-#define proj_ver ReadIni(SourcePath+'../therion/innosetup.ini', 'PROJ', 'version', '0')
+#define proj_ver ReadIni(SourcePath+'../therion.bin/innosetup.ini', 'PROJ', 'version', '0')
 #if proj_ver == "0"
   #error Could not determine PROJ version
 #elif proj_ver == "5"
