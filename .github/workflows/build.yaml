@@ -2,7 +2,7 @@ name: Build
 on: [push, pull_request]
 jobs:
   MXE:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - name: install dependencies
@@ -20,7 +20,7 @@ jobs:
           sudo sed -i '/pattern="PDF"/d' /etc/ImageMagick-6/policy.xml  # turn off policy preventing PDF conversion
           mkdir -p $HOME/.wine/drive_c/windows
           echo -e "mpost-path /home/runner/work/therion-batteries/therion-batteries/bin/win32/mpost.exe\npdftex-path /home/runner/work/therion-batteries/therion-batteries/bin/win32/pdftex.exe" > $HOME/.wine/drive_c/windows/therion.ini
-          wget -qO - https://github.com/therion/therion/archive/devel.tar.gz | tar -xz && mv therion-devel ../therion
+          wget -qO - https://github.com/therion/therion/archive/master.tar.gz | tar -xz && mv therion-master ../therion
           mkdir ../therion.bin
           pushd ../therion.bin
           i686-w64-mingw32.static-cmake -G Ninja \
