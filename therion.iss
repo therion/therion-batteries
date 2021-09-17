@@ -61,7 +61,7 @@ Source: ..\therion\README; DestDir: {app}; Destname: README.txt
 Source: ..\therion\COPYING; DestDir: {app}; Destname: COPYING.txt
 
 Source: ..\therion\loch\locale\*.mo; DestDir: {app}; Flags: recursesubdirs
-Source: ..\therion\loch\help\*.chm; DestDir: {app}; Flags: recursesubdirs
+Source: ..\therion\loch\help\*.htb; DestDir: {app}; Flags: recursesubdirs
 Source: ..\therion\loch\lochfile.ico; DestDir: {app}
 Source: ..\therion.bin\loch\loch.exe; DestDir: {app}
 
