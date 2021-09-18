@@ -17,7 +17,6 @@ jobs:
       - name: run build
         run: |
           export PATH=/usr/lib/mxe/usr/bin:$PATH
-          sudo sed -i '/pattern="PDF"/d' /etc/ImageMagick-6/policy.xml  # turn off policy preventing PDF conversion
           mkdir -p $HOME/.wine/drive_c/windows
           echo -e "mpost-path /home/runner/work/therion-batteries/therion-batteries/bin/win32/mpost.exe\npdftex-path /home/runner/work/therion-batteries/therion-batteries/bin/win32/pdftex.exe\nidentify-path /home/runner/work/therion-batteries/therion-batteries/bin/identify.exe\nconvert-path /home/runner/work/therion-batteries/therion-batteries/bin/convert.exe" > $HOME/.wine/drive_c/windows/therion.ini
           wget -qO - https://github.com/therion/therion/archive/master.tar.gz | tar -xz && mv therion-master ../therion
