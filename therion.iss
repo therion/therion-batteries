@@ -55,13 +55,13 @@ Source: texmf\*.*; DestDir: {app}\texmf; Flags: recursesubdirs
   #error PROJ version too recent
 #endif
 
-Source: ..\therion.bin\thbook\thbook.pdf; DestDir: {app}
-Source: ..\therion\CHANGES; DestDir: {app}; Destname: CHANGES.txt
-Source: ..\therion\README; DestDir: {app}; Destname: README.txt
-Source: ..\therion\COPYING; DestDir: {app}; Destname: COPYING.txt
+Source: ..\therion.bin\thbook\thbook.pdf; DestDir: {app}\doc
+Source: ..\therion\CHANGES; DestDir: {app}\doc; Destname: CHANGES.txt
+Source: ..\therion\README; DestDir: {app}\doc; Destname: README.txt
+Source: ..\therion\COPYING; DestDir: {app}\doc; Destname: COPYING.txt
 
-Source: ..\therion\loch\locale\*.mo; DestDir: {app}; Flags: recursesubdirs
-Source: ..\therion.bin\loch\help\*.htb; DestDir: {app}; Flags: recursesubdirs
+Source: ..\therion\loch\locale\*.mo; DestDir: {app}\locale; Flags: recursesubdirs
+Source: ..\therion.bin\loch\help\*.htb; DestDir: {app}\doc\help; Flags: recursesubdirs
 Source: ..\therion\loch\lochfile.ico; DestDir: {app}
 Source: ..\therion.bin\loch\loch.exe; DestDir: {app}
 
