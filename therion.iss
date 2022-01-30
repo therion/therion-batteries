@@ -51,6 +51,9 @@ Source: texmf\*.*; DestDir: {app}\texmf; Flags: recursesubdirs
 #elif proj_ver == "7"
   Source: _proj\proj-7\*.*; DestDir: {app}\lib\proj-7;
   Source: _proj\doc\*.*; DestDir: {app}\lib\proj-7\doc;
+#elif proj_ver == "8"
+  Source: _proj\proj-8\*.*; DestDir: {app}\lib\proj-8;
+  Source: _proj\doc\*.*; DestDir: {app}\lib\proj-8\doc;
 #else
   #error PROJ version too recent
 #endif
