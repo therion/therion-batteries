@@ -68,6 +68,8 @@ Source: ..\therion.bin\loch\help\*.htb; DestDir: {app}\doc\help; Flags: recurses
 Source: ..\therion\loch\lochfile.ico; DestDir: {app}
 Source: ..\therion.bin\loch\loch.exe; DestDir: {app}
 
+Source: ..\therion.bin\dependencies\*.*; DestDir: {app}; Flags: skipifsourcedoesntexist
+
 Source: ..\therion\samples\*.*; DestDir: {app}\samples; Flags: recursesubdirs
 
 [Icons]
