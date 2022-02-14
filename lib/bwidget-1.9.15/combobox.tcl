@@ -557,7 +557,7 @@ proc ComboBox::_create_popup { path } {
         if {[Widget::theme]} {
             set listb  [listbox $shell.listb \
                     -relief flat -borderwidth 0 -highlightthickness 0 \
-                    -exportselection false \
+                    -exportselection false -bd 2 \
                     -font	[Widget::cget $path -font]  \
                     -height $h \
                     -bg [_getbg $path] \
@@ -566,7 +566,7 @@ proc ComboBox::_create_popup { path } {
         } else {
             set listb  [listbox $shell.listb \
                     -relief flat -borderwidth 0 -highlightthickness 0 \
-                    -exportselection false \
+                    -exportselection false -bd 2 \
                     -font	[Widget::cget $path -font]  \
                     -height $h \
                     -bg [_getbg $path] \
