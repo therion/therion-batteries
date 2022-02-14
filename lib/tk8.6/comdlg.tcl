@@ -29,7 +29,8 @@
 #    {....}
 # }
 #
-# flags = currently unused.
+# flags = a list of flags. Currently supported flags are:
+#     DONTSETDEFAULTS = skip default values setting
 #
 # argList = The list of  "-option value" pairs.
 #
@@ -63,8 +64,10 @@ proc tclParseConfigSpec {w specs flags argList} {
 
     # 2: set the default values
     #
-    foreach cmdsw [array names cmd] {
-	set data($cmdsw) $def($cmdsw)
+    if {"DONTSETDEFAULTS" ni $flags} {
+        foreach cmdsw [array names cmd] {
+	    set data($cmdsw) $def($cmdsw)
+        }
     }
 
     # 3: parse the argument list
@@ -180,7 +183,7 @@ proc ::tk::FocusGroup_Destroy {t w} {
 
     if {$t eq $w} {
 	unset Priv(fg,$t)
-	unset Priv(focus,$t) 
+	unset Priv(focus,$t)
 
 	foreach name [array names FocusIn $t,*] {
 	    unset FocusIn($name)
@@ -277,7 +280,7 @@ proc ::tk::FDGetFileTypes {string} {
 	    continue
 	}
 
-	# Validate each macType.  This is to agree with the 
+	# Validate each macType.  This is to agree with the
 	# behaviour of TkGetFileFilters().  This list may be
 	# empty.
 	foreach macType [lindex $t 2] {
@@ -286,7 +289,7 @@ proc ::tk::FDGetFileTypes {string} {
 		    "bad Macintosh file type \"$macType\""
 	    }
 	}
-	
+
 	set name "$label \("
 	set sep ""
 	set doAppend 1

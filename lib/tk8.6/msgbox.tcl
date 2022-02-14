@@ -129,7 +129,7 @@ static unsigned char w3_bits[] = {
 #	See the user documentation for details on what tk_messageBox does.
 #
 proc ::tk::MessageBox {args} {
-    global tcl_platform tk_strictMotif
+    global tk_strictMotif
     variable ::tk::Priv
 
     set w ::tk::PrivMsgBox
@@ -137,7 +137,7 @@ proc ::tk::MessageBox {args} {
 
     #
     # The default value of the title is space (" ") not the empty string
-    # because for some window managers, a 
+    # because for some window managers, a
     #		wm title .foo ""
     # causes the window title to be "foo" instead of the empty string.
     #
@@ -164,9 +164,6 @@ proc ::tk::MessageBox {args} {
 	    "warning"   {set data(-icon) "caution"}
 	    "info"      {set data(-icon) "note"}
 	}
-	option add *Dialog*background systemDialogBackgroundActive widgetDefault
-	option add *Dialog*Button.highlightBackground \
-		systemDialogBackgroundActive widgetDefault
     }
 
     if {![winfo exists $data(-parent)]} {
@@ -175,7 +172,7 @@ proc ::tk::MessageBox {args} {
     }
 
     switch -- $data(-type) {
-	abortretryignore { 
+	abortretryignore {
 	    set names [list abort retry ignore]
 	    set labels [list &Abort &Retry &Ignore]
 	    set cancel abort
@@ -218,7 +215,7 @@ proc ::tk::MessageBox {args} {
 	lappend buttons [list $name -text [mc $lab]]
     }
 
-    # If no default button was specified, the default default is the 
+    # If no default button was specified, the default default is the
     # first button (Bug: 2218).
 
     if {$data(-default) eq ""} {
@@ -234,7 +231,8 @@ proc ::tk::MessageBox {args} {
     }
     if {!$valid} {
 	return -code error -errorcode {TK MSGBOX DEFAULT} \
-	    "invalid default button \"$data(-default)\""
+	    "bad -default value \"$data(-default)\": must be\
+	    abort, retry, ignore, ok, cancel, no, or yes"
     }
 
     # 2. Set the dialog to be a child window of $parent

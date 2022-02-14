@@ -10,10 +10,8 @@
 # See the file "license.terms" for information on usage and redistribution of
 # this file, and for a DISCLAIMER OF ALL WARRANTIES.
 
-# Insist on running with compatible version of Tcl
-package require Tcl 8.6
 # Verify that we have Tk binary and script components from the same release
-package require -exact Tk  8.6.1
+package require -exact Tk  8.6.12
 
 # Create a ::tk namespace
 namespace eval ::tk {
@@ -24,7 +22,7 @@ namespace eval ::tk {
             # The msgcat package is not available.  Supply our own
             # minimal replacement.
             proc mc {src args} {
-                tailcall format $src {*}$args
+                return [format $src {*}$args]
             }
             proc mcmax {args} {
                 set max 0
@@ -253,7 +251,6 @@ proc ::tk::ScreenChanged screen {
 
     uplevel #0 [list upvar #0 ::tk::Priv.$disp ::tk::Priv]
     variable ::tk::Priv
-    global tcl_platform
 
     if {[info exists Priv]} {
 	set Priv(screen) $screen
@@ -302,7 +299,7 @@ tk::ScreenChanged [winfo screen .]
 
 proc ::tk::EventMotifBindings {n1 dummy dummy} {
     upvar $n1 name
-    
+
     if {$name} {
 	set op delete
     } else {
@@ -312,7 +309,6 @@ proc ::tk::EventMotifBindings {n1 dummy dummy} {
     event $op <<Cut>> <Control-Key-w> <Control-Lock-Key-W> <Shift-Key-Delete>
     event $op <<Copy>> <Meta-Key-w> <Meta-Lock-Key-W> <Control-Key-Insert>
     event $op <<Paste>> <Control-Key-y> <Control-Lock-Key-Y> <Shift-Key-Insert>
-    event $op <<Undo>> <Control-underscore>
     event $op <<PrevChar>> <Control-Key-b> <Control-Lock-Key-B>
     event $op <<NextChar>> <Control-Key-f> <Control-Lock-Key-F>
     event $op <<PrevLine>> <Control-Key-p> <Control-Lock-Key-P>
@@ -328,41 +324,41 @@ proc ::tk::EventMotifBindings {n1 dummy dummy} {
 }
 
 #----------------------------------------------------------------------
-# Define common dialogs on platforms where they are not implemented 
+# Define common dialogs on platforms where they are not implemented
 # using compiled code.
 #----------------------------------------------------------------------
 
 if {![llength [info commands tk_chooseColor]]} {
     proc ::tk_chooseColor {args} {
-	tailcall ::tk::dialog::color:: {*}$args
+	return [::tk::dialog::color:: {*}$args]
     }
 }
 if {![llength [info commands tk_getOpenFile]]} {
     proc ::tk_getOpenFile {args} {
 	if {$::tk_strictMotif} {
-	    tailcall ::tk::MotifFDialog open {*}$args
+	    return [::tk::MotifFDialog open {*}$args]
 	} else {
-	    tailcall ::tk::dialog::file:: open {*}$args
+	    return [::tk::dialog::file:: open {*}$args]
 	}
     }
 }
 if {![llength [info commands tk_getSaveFile]]} {
     proc ::tk_getSaveFile {args} {
 	if {$::tk_strictMotif} {
-	    tailcall ::tk::MotifFDialog save {*}$args
+	    return [::tk::MotifFDialog save {*}$args]
 	} else {
-	    tailcall ::tk::dialog::file:: save {*}$args
+	    return [::tk::dialog::file:: save {*}$args]
 	}
     }
 }
 if {![llength [info commands tk_messageBox]]} {
     proc ::tk_messageBox {args} {
-	tailcall ::tk::MessageBox {*}$args
+	return [::tk::MessageBox {*}$args]
     }
 }
 if {![llength [info command tk_chooseDirectory]]} {
     proc ::tk_chooseDirectory {args} {
-	tailcall ::tk::dialog::file::chooseDir:: {*}$args
+	return [::tk::dialog::file::chooseDir:: {*}$args]
     }
 }
 
@@ -404,7 +400,7 @@ switch -exact -- [tk windowingsystem] {
 	event add <<NextPara>>		<Control-Down>
 	event add <<SelectPrevPara>>	<Control-Shift-Up>
 	event add <<SelectNextPara>>	<Control-Shift-Down>
-	event add <<ToggleSelection>>	<Control-ButtonPress-1>
+	event add <<ToggleSelection>>	<Control-Button-1>
 
 	# Some OS's define a goofy (as in, not <Shift-Tab>) keysym that is
 	# returned when the user presses <Shift-Tab>. In order for tab
@@ -453,7 +449,7 @@ switch -exact -- [tk windowingsystem] {
 	event add <<NextPara>>		<Control-Down>
 	event add <<SelectPrevPara>>	<Control-Shift-Up>
 	event add <<SelectNextPara>>	<Control-Shift-Down>
-	event add <<ToggleSelection>>	<Control-ButtonPress-1>
+	event add <<ToggleSelection>>	<Control-Button-1>
     }
     "aqua" {
 	event add <<Cut>>		<Command-Key-x> <Key-F2> <Command-Lock-Key-X>
@@ -464,9 +460,8 @@ switch -exact -- [tk windowingsystem] {
 	event add <<ContextMenu>>	<Button-2>
 
 	# Official bindings
-	# See http://support.apple.com/kb/HT1343
+	# See https://support.apple.com/en-us/HT201236
 	event add <<SelectAll>>		<Command-Key-a>
-	event add <<SelectNone>>	<Option-Command-Key-a>
 	event add <<Undo>>		<Command-Key-z> <Command-Lock-Key-Z>
 	event add <<Redo>>		<Shift-Command-Key-z> <Shift-Command-Lock-Key-z>
 	event add <<NextChar>>		<Right> <Control-Key-f> <Control-Lock-Key-F>
@@ -491,7 +486,7 @@ switch -exact -- [tk windowingsystem] {
 	event add <<NextPara>>		<Option-Down>
 	event add <<SelectPrevPara>>	<Shift-Option-Up>
 	event add <<SelectNextPara>>	<Shift-Option-Down>
-	event add <<ToggleSelection>>	<Command-ButtonPress-1>
+	event add <<ToggleSelection>>	<Command-Button-1>
     }
 }
 
@@ -501,7 +496,7 @@ switch -exact -- [tk windowingsystem] {
 
 if {$::tk_library ne ""} {
     proc ::tk::SourceLibFile {file} {
-        namespace eval :: [list source [file join $::tk_library $file.tcl]]
+        namespace eval :: [list source -encoding utf-8 [file join $::tk_library $file.tcl]]
     }
     namespace eval ::tk {
 	SourceLibFile icons
@@ -543,7 +538,7 @@ proc ::tk::CancelRepeat {} {
 
 # ::tk::TabToWindow --
 # This procedure moves the focus to the given widget.
-# It sends a <<TraverseOut>> virtual event to the previous focus window, 
+# It sends a <<TraverseOut>> virtual event to the previous focus window,
 # if any, before changing the focus, and a <<TraverseIn>> event
 # to the new focus window afterwards.
 #
@@ -571,7 +566,7 @@ proc ::tk::UnderlineAmpersand {text} {
     return [list [string map {\ufeff {}} $s] $idx]
 }
 
-# ::tk::SetAmpText -- 
+# ::tk::SetAmpText --
 #	Given widget path and text with "magic ampersands", sets -text and
 #	-underline options for the widget
 #
@@ -604,8 +599,9 @@ proc ::tk::AmpWidget {class path args} {
 # ::tk::AmpMenuArgs --
 #	Processes arguments for a menu entry, turning -label option into
 #	-label and -underline options, returned by ::tk::UnderlineAmpersand.
+#      The cmd argument is supposed to be either "add" or "entryconfigure"
 #
-proc ::tk::AmpMenuArgs {widget add type args} {
+proc ::tk::AmpMenuArgs {widget cmd type args} {
     set options {}
     foreach {opt val} $args {
 	if {$opt eq "-label"} {
@@ -615,7 +611,7 @@ proc ::tk::AmpMenuArgs {widget add type args} {
 	    lappend options $opt $val
 	}
     }
-    $widget add $type {*}$options
+    $widget $cmd $type {*}$options
 }
 
 # ::tk::FindAltKeyTarget --
@@ -679,7 +675,7 @@ proc ::tk::mcmaxamp {args} {
     return $maxlen
 }
 
-# For now, turn off the custom mdef proc for the mac:
+# For now, turn off the custom mdef proc for the Mac:
 
 if {[tk windowingsystem] eq "aqua"} {
     namespace eval ::tk::mac {
@@ -687,9 +683,27 @@ if {[tk windowingsystem] eq "aqua"} {
     }
 }
 
+
+if {[tk windowingsystem] eq "aqua"} {
+    #stub procedures to respond to "do script" Apple Events
+    proc ::tk::mac::DoScriptFile {file} {
+	uplevel #0 $file
+    	source -encoding utf-8 $file
+    }
+    proc ::tk::mac::DoScriptText {script} {
+	uplevel #0 $script
+    	eval $script
+    }
+}
+
+# Create a dictionary to store the starting index of the IME marked
+# text in an Entry or Text widget.
+
+set ::tk::Priv(IMETextMark) [dict create]
+
 # Run the Ttk themed widget set initialization
 if {$::ttk::library ne ""} {
-    uplevel \#0 [list source $::ttk::library/ttk.tcl]
+    uplevel \#0 [list source -encoding utf-8 $::ttk::library/ttk.tcl]
 }
 
 # Local Variables:

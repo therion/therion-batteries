@@ -28,7 +28,6 @@
 #		bottom of the dialog box.
 
 proc ::tk_dialog {w title text bitmap default args} {
-    global tcl_platform
     variable ::tk::Priv
 
     # Check that $default was properly given
@@ -45,11 +44,6 @@ proc ::tk_dialog {w title text bitmap default args} {
     }
 
     set windowingsystem [tk windowingsystem]
-    if {$windowingsystem eq "aqua"} {
-	option add *Dialog*background systemDialogBackgroundActive widgetDefault
-	option add *Dialog*Button.highlightBackground \
-		systemDialogBackgroundActive widgetDefault
-    }
 
     # 1. Create the top-level window and divide it into top
     # and bottom parts.
@@ -149,7 +143,7 @@ proc ::tk_dialog {w title text bitmap default args} {
     # so we know how big it wants to be, then center the window in the
     # display (Motif style) and de-iconify it.
 
-    ::tk::PlaceWindow $w 
+    ::tk::PlaceWindow $w
     tkwait visibility $w
 
     # 7. Set a grab and claim the focus too.

@@ -310,6 +310,7 @@ proc ::tk::dialog::file::Config {dataName type argList} {
 
     # 5. Parse the -filetypes option
     #
+    set data(origfiletypes) $data(-filetypes)
     set data(-filetypes) [::tk::FDGetFileTypes $data(-filetypes)]
 
     if {![winfo exists $data(-parent)]} {
@@ -1119,7 +1120,9 @@ proc ::tk::dialog::file::Done {w {selectFilePath ""}} {
 	    && [info exists data(filterType)] && $data(filterType) ne ""
 	} then {
 	    upvar #0 $data(-typevariable) typeVariable
-	    set typeVariable [lindex $data(filterType) 0]
+	    set typeVariable [lindex $data(origfiletypes) \
+	            [lsearch -exact $data(-filetypes) $data(filterType)] 0]
+
 	}
     }
     bind $data(okBtn) <Destroy> {}
@@ -1169,6 +1172,10 @@ proc ::tk::dialog::file::GlobFiltered {dir type {overrideFilter 0}} {
 	    if {$f eq "." || $f eq ".."} {
 		continue
 	    }
+	    # See ticket [1641721], $f might be a link pointing to a dir
+	    if {$type != "d" && [file isdir [file join $dir $f]]} {
+		continue
+	    }
 	    lappend result $f
 	}
     }
@@ -1176,7 +1183,6 @@ proc ::tk::dialog::file::GlobFiltered {dir type {overrideFilter 0}} {
 }
 
 proc ::tk::dialog::file::CompleteEnt {w} {
-    variable showHiddenVar
     upvar ::tk::dialog::file::[winfo name $w] data
     set f [$data(ent) get]
     if {$data(-multiple)} {

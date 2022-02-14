@@ -38,6 +38,8 @@
 # The code below creates the default class bindings for text widgets.
 #-------------------------------------------------------------------------
 
+
+
 # Standard Motif bindings:
 
 bind Text <1> {
@@ -83,9 +85,19 @@ bind Text <B1-Enter> {
 bind Text <ButtonRelease-1> {
     tk::CancelRepeat
 }
+
 bind Text <Control-1> {
     %W mark set insert @%x,%y
+    # An operation that moves the insert mark without making it
+    # one end of the selection must insert an autoseparator
+    if {[%W cget -autoseparators]} {
+	%W edit separator
+    }
 }
+# stop an accidental double click triggering <Double-Button-1>
+bind Text <Double-Control-1> { # nothing }
+# stop an accidental movement triggering <B1-Motion>
+bind Text <Control-B1-Motion> { # nothing }
 bind Text <<PrevChar>> {
     tk::TextSetCursor %W insert-1displayindices
 }
@@ -245,6 +257,11 @@ bind Text <<SelectAll>> {
 }
 bind Text <<SelectNone>> {
     %W tag remove sel 1.0 end
+    # An operation that clears the selection must insert an autoseparator,
+    # because the selection operation may have moved the insert mark
+    if {[%W cget -autoseparators]} {
+	%W edit separator
+    }
 }
 bind Text <<Cut>> {
     tk_textCut %W
@@ -256,7 +273,15 @@ bind Text <<Paste>> {
     tk_textPaste %W
 }
 bind Text <<Clear>> {
+    # Make <<Clear>> an atomic operation on the Undo stack,
+    # i.e. separate it from other delete operations on either side
+    if {[%W cget -autoseparators]} {
+	%W edit separator
+    }
     catch {%W delete sel.first sel.last}
+    if {[%W cget -autoseparators]} {
+	%W edit separator
+    }
 }
 bind Text <<PasteSelection>> {
     if {$tk_strictMotif || ![info exists tk::Priv(mouseMoved)]
@@ -314,7 +339,16 @@ bind Text <Control-t> {
 }
 
 bind Text <<Undo>> {
+    # An Undo operation may remove the separator at the top of the Undo stack.
+    # Then the item at the top of the stack gets merged with the subsequent changes.
+    # Place separators before and after Undo to prevent this.
+    if {[%W cget -autoseparators]} {
+	%W edit separator
+    }
     catch { %W edit undo }
+    if {[%W cget -autoseparators]} {
+	%W edit separator
+    }
 }
 
 bind Text <<Redo>> {
@@ -357,6 +391,26 @@ bind Text <Meta-Delete> {
     }
 }
 
+# Bindings for IME text input.
+
+bind Text <<TkStartIMEMarkedText>> {
+    dict set ::tk::Priv(IMETextMark) "%W" [%W index insert]
+}
+bind Text <<TkEndIMEMarkedText>> {
+    if { [catch {dict get $::tk::Priv(IMETextMark) "%W"} mark] } {
+	bell
+    } else {
+	%W tag add IMEmarkedtext $mark insert
+	%W tag configure IMEmarkedtext -underline on
+    }
+}
+bind Text <<TkClearIMEMarkedText>> {
+    %W delete IMEmarkedtext.first IMEmarkedtext.last
+}
+bind Text <<TkAccentBackspace>> {
+    %W delete insert-1c
+}
+
 # Macintosh only bindings:
 
 if {[tk windowingsystem] eq "aqua"} {
@@ -375,14 +429,27 @@ bind Text <Control-h> {
 	%W see insert
     }
 }
-bind Text <2> {
-    if {!$tk_strictMotif} {
-	tk::TextScanMark %W %x %y
+if {[tk windowingsystem] ne "aqua"} {
+    bind Text <2> {
+        if {!$tk_strictMotif} {
+        tk::TextScanMark %W %x %y
+        }
     }
-}
-bind Text <B2-Motion> {
-    if {!$tk_strictMotif} {
-	tk::TextScanDrag %W %x %y
+    bind Text <B2-Motion> {
+        if {!$tk_strictMotif} {
+        tk::TextScanDrag %W %x %y
+        }
+    }
+} else {
+    bind Text <3> {
+        if {!$tk_strictMotif} {
+        tk::TextScanMark %W %x %y
+        }
+    }
+    bind Text <B3-Motion> {
+        if {!$tk_strictMotif} {
+        tk::TextScanDrag %W %x %y
+        }
     }
 }
 set ::tk::Priv(prevPos) {}
@@ -428,11 +495,11 @@ if {[tk windowingsystem] eq "aqua"} {
     }
 }
 
-if {"x11" eq [tk windowingsystem]} {
+if {[tk windowingsystem] eq "x11"} {
     # Support for mousewheels on Linux/Unix commonly comes through mapping
     # the wheel to the extended buttons.  If you have a mousewheel, find
     # Linux configuration info at:
-    #	http://www.inria.fr/koala/colas/mouse-wheel-scroll/
+    #	https://linuxreviews.org/HOWTO_change_the_mouse_speed_in_X
     bind Text <4> {
 	if {!$tk_strictMotif} {
 	    %W yview scroll -50 pixels
@@ -504,12 +571,7 @@ proc ::tk::TextButton1 {w x y} {
     } else {
 	$w mark gravity $anchorname left
     }
-    # Allow focus in any case on Windows, because that will let the
-    # selection be displayed even for state disabled text widgets.
-    if {[tk windowingsystem] eq "win32" \
-	    || [$w cget -state] eq "normal"} {
-	focus $w
-    }
+    focus $w
     if {[$w cget -autoseparators]} {
 	$w edit separator
     }
@@ -543,7 +605,6 @@ proc ::tk::TextAnchor {w} {
 }
 
 proc ::tk::TextSelectTo {w x y {extend 0}} {
-    global tcl_platform
     variable ::tk::Priv
 
     set anchorname [tk::TextAnchor $w]
@@ -738,6 +799,9 @@ proc ::tk::TextKeySelect {w new} {
 	}
 	$w mark set $anchorname insert
     } else {
+        if {[catch {$w index $anchorname}]} {
+            $w mark set $anchorname insert
+        }
 	if {[$w compare $new < $anchorname]} {
 	    set first $new
 	    set last $anchorname
@@ -858,11 +922,10 @@ proc ::tk::TextInsert {w s} {
 
 # ::tk::TextUpDownLine --
 # Returns the index of the character one display line above or below the
-# insertion cursor.  There are two tricky things here.  First, we want to
-# maintain the original x position across repeated operations, even though
-# some lines that will get passed through don't have enough characters to
-# cover the original column.  Second, don't try to scroll past the
-# beginning or end of the text.
+# insertion cursor.  There is a tricky thing here: we want to maintain the
+# original x position across repeated operations, even though some lines
+# that will get passed through don't have enough characters to cover the
+# original column.
 #
 # Arguments:
 # w -		The text window in which the cursor is to move.
@@ -879,11 +942,11 @@ proc ::tk::TextUpDownLine {w n} {
     set lines [$w count -displaylines $Priv(textPosOrig) $i]
     set new [$w index \
 	    "$Priv(textPosOrig) + [expr {$lines + $n}] displaylines"]
-    if {[$w compare $new == end] \
-	    || [$w compare $new == "insert display linestart"]} {
-	set new $i
-    }
     set Priv(prevPos) $new
+    if {[$w compare $new == "end display lineend"] \
+            || [$w compare $new == "insert display linestart"]} {
+        set Priv(textPosOrig) $new
+    }
     return $new
 }
 
@@ -1022,9 +1085,18 @@ proc ::tk_textCopy w {
 
 proc ::tk_textCut w {
     if {![catch {set data [$w get sel.first sel.last]}]} {
+        # make <<Cut>> an atomic operation on the Undo stack,
+        # i.e. separate it from other delete operations on either side
+	set oldSeparator [$w cget -autoseparators]
+	if {([$w cget -state] eq "normal") && $oldSeparator} {
+	    $w edit separator
+	}
 	clipboard clear -displayof $w
 	clipboard append -displayof $w $data
 	$w delete sel.first sel.last
+	if {([$w cget -state] eq "normal") && $oldSeparator} {
+	    $w edit separator
+	}
     }
 }
 
@@ -1036,7 +1108,6 @@ proc ::tk_textCut w {
 # w -		Name of a text widget.
 
 proc ::tk_textPaste w {
-    global tcl_platform
     if {![catch {::tk::GetSelection $w CLIPBOARD} sel]} {
 	set oldSeparator [$w cget -autoseparators]
 	if {$oldSeparator} {

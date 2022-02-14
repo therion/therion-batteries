@@ -1,13 +1,12 @@
 #!/bin/sh
 # the next line restarts using wish \
-exec wish "$0" ${1+"$@"}
+exec wish86 "$0" ${1+"$@"}
 
 # rmt --
 # This script implements a simple remote-control mechanism for
 # Tk applications.  It allows you to select an application and
 # then type commands to that application.
 
-package require Tcl 8.4
 package require Tk
 
 wm title . "Tk Remote Controller"
