@@ -74,7 +74,7 @@ Source: ..\therion\samples\*.*; DestDir: {app}\samples; Flags: recursesubdirs
 
 [Icons]
 Name: "{code:GetIconPath}\Loch"; Filename: {app}\loch.exe; IconFileName: {app}\loch.exe; WorkingDir: {app}\samples
-Name: "{code:GetIconPath}\XTherion"; Filename: {app}\bin\wish86t.exe; Parameters: """{app}\xtherion.tcl"""; IconFileName: {app}\therion.exe; WorkingDir: {app}\samples
+Name: "{code:GetIconPath}\XTherion"; Filename: {app}\bin\wish86.exe; Parameters: """{app}\xtherion.tcl"""; IconFileName: {app}\therion.exe; WorkingDir: {app}\samples
 Name: "{code:GetIconPath}\The Therion Book"; Filename: "{app}\thbook.pdf"
 Name: "{code:GetIconPath}\NEWS"; Filename: write.exe; Parameters: """{app}\CHANGES.txt"""
 Name: "{code:GetIconPath}\Uninstall Therion"; Filename: {uninstallexe}
@@ -86,13 +86,13 @@ Root: "HKLM"; Subkey: "SOFTWARE\Classes\.th2"; ValueType: string; ValueData: "Th
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\.lox"; ValueType: string; ValueData: "LochFile"; Flags: uninsdeletevalue; Check: InstallForAll
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionConfig"; ValueType: string; ValueData: "Therion configuration"; Flags: uninsdeletekey; Check: InstallForAll
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionConfig\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: InstallForAll
-Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionConfig\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionConfig\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: InstallForAll
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionData"; ValueType: string; ValueData: "Therion data file"; Flags: uninsdeletekey; Check: InstallForAll
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionData\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: InstallForAll
-Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionData\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionData\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: InstallForAll
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionScraps"; ValueType: string; ValueData: "Therion scraps file"; Flags: uninsdeletekey; Check: InstallForAll
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionScraps\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: InstallForAll
-Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionScraps\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: InstallForAll
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\TherionScraps\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: InstallForAll
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\LochFile"; ValueType: string; ValueData: "Loch 3D file"; Flags: uninsdeletekey; Check: InstallForAll
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\LochFile\DefaultIcon"; ValueType: string; ValueData: "{app}\lochfile.ico"; Check: InstallForAll
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\LochFile\shell\open\command"; ValueType: string; ValueData: """{app}\loch.exe"" ""%1"""; Check: InstallForAll
@@ -109,13 +109,13 @@ Root: "HKCU"; Subkey: "SOFTWARE\Classes\.th2"; ValueType: string; ValueData: "Th
 Root: "HKCU"; Subkey: "SOFTWARE\Classes\.lox"; ValueType: string; ValueData: "LochFile"; Flags: uninsdeletevalue; Check: not InstallForAll
 Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionConfig"; ValueType: string; ValueData: "Therion configuration"; Flags: uninsdeletekey; Check: not InstallForAll
 Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionConfig\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: not InstallForAll
-Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionConfig\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionConfig\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: not InstallForAll
 Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionData"; ValueType: string; ValueData: "Therion data file"; Flags: uninsdeletekey; Check: not InstallForAll
 Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionData\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: not InstallForAll
-Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionData\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionData\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: not InstallForAll
 Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionScraps"; ValueType: string; ValueData: "Therion scraps file"; Flags: uninsdeletekey; Check: not InstallForAll
 Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionScraps\DefaultIcon"; ValueType: string; ValueData: "{app}\therion.exe,0"; Check: not InstallForAll
-Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionScraps\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86t.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: not InstallForAll
+Root: "HKCU"; Subkey: "SOFTWARE\Classes\TherionScraps\shell\open\command"; ValueType: string; ValueData: """{app}\bin\wish86.exe"" ""{app}\xtherion.tcl"" ""%1"""; Check: not InstallForAll
 Root: "HKCU"; Subkey: "SOFTWARE\Classes\LochFile"; ValueType: string; ValueData: "Loch 3D file"; Flags: uninsdeletekey; Check: not InstallForAll
 Root: "HKCU"; Subkey: "SOFTWARE\Classes\LochFile\DefaultIcon"; ValueType: string; ValueData: "{app}\lochfile.ico"; Check: not InstallForAll
 Root: "HKCU"; Subkey: "SOFTWARE\Classes\LochFile\shell\open\command"; ValueType: string; ValueData: """{app}\loch.exe"" ""%1"""; Check: not InstallForAll
