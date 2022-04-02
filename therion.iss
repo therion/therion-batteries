@@ -43,6 +43,7 @@ Source: texmf\*.*; DestDir: {app}\texmf; Flags: recursesubdirs
 #elif proj_ver <= 6
   Source: _proj\proj-datumgrid\*.*; DestDir: {app}\lib\proj-{#proj_ver};
 #endif
+Source: _proj\proj-thgrid\*.*; DestDir: {app}\lib\proj-{#proj_ver};
 Source: _proj\proj-{#proj_ver}\*.*; DestDir: {app}\lib\proj-{#proj_ver};
 Source: _proj\doc\*.*; DestDir: {app}\lib\proj-{#proj_ver}\doc;
 
