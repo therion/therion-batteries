@@ -20,6 +20,8 @@ ChangesAssociations=true
 SolidCompression=yes
 PrivilegesRequired=admin
 PrivilegesRequiredOverridesAllowed=dialog
+ArchitecturesInstallIn64BitMode=x64
+ArchitecturesAllowed=x64
 
 [Files]
 
