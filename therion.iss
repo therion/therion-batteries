@@ -36,7 +36,7 @@ Source: ..\therion\xtherion\xtherion.ini; DestDir: {app}; Destname: xtherion.new
 Source: bin\*.*; DestDir: {app}\bin
 Source: lib\*.*; DestDir: {app}\lib; Flags: recursesubdirs
 
-Source: bin\win32\*.*; DestDir: {app}\bin\win32
+Source: bin\windows\*.*; DestDir: {app}\bin\windows
 Source: texmf\*.*; DestDir: {app}\texmf; Flags: recursesubdirs
 
 #define proj_ver Int(ReadIni(SourcePath+'../therion.bin/innosetup.ini', 'PROJ', 'version', '0'),0)

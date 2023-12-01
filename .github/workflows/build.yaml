@@ -19,7 +19,7 @@ jobs:
         run: |
           export PATH=/usr/lib/mxe/usr/bin:$PATH
           mkdir -p $HOME/.wine/drive_c/windows
-          echo -e "mpost-path /home/runner/work/therion-batteries/therion-batteries/bin/win32/mpost.exe\npdftex-path /home/runner/work/therion-batteries/therion-batteries/bin/win32/pdftex.exe\nidentify-path /home/runner/work/therion-batteries/therion-batteries/bin/identify.exe\nconvert-path /home/runner/work/therion-batteries/therion-batteries/bin/convert.exe" > $HOME/.wine/drive_c/windows/therion.ini
+          echo -e "mpost-path /home/runner/work/therion-batteries/therion-batteries/bin/windows/mpost.exe\npdftex-path /home/runner/work/therion-batteries/therion-batteries/bin/windows/pdftex.exe\nidentify-path /home/runner/work/therion-batteries/therion-batteries/bin/identify.exe\nconvert-path /home/runner/work/therion-batteries/therion-batteries/bin/convert.exe" > $HOME/.wine/drive_c/windows/therion.ini
           wget -qO - https://github.com/therion/therion/archive/master.tar.gz | tar -xz && mv therion-master ../therion
           mkdir ../therion.bin
           pushd ../therion.bin
