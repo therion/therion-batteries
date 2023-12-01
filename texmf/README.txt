@@ -7,5 +7,6 @@ are used:
   - pdftex-w32.tar.xz
   - web2c-lib.tar.xz
   - web2c-w32.tar.xz
+  - tl-win64.zip
 
 Upgrade to full TeXLive distribution if possible.
