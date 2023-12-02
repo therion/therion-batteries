@@ -70,7 +70,7 @@ pool_free =			47500 % min pool space left after loading .fmt
 pool_size  =			1250000
 
 %  allow for a lot of hyphenations
-trie_size =			500000
+trie_size =			1100000
 
 % Buffer size.  TeX uses the buffer to contain input lines, but macro
 % expansion works by writing material into the buffer and reparsing the
