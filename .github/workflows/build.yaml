@@ -1,33 +1,39 @@
 name: Build
 on: [push, pull_request]
 jobs:
-  MXE:
-    runs-on: ubuntu-20.04
+  Windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        config:
+          - { msystem: MINGW64, arch: x86_64 }
+    defaults:
+      run:
+        shell: msys2 {0}
+    env:
+      THDIR: d:/a/therion-batteries
+      PROJ_LIB: d:/a/therion-batteries/proj-lib
     steps:
-      - uses: actions/checkout@v2
-      - name: install dependencies
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.config.msystem }}
+          update: true
+          install: make git python mingw-w64-${{ matrix.config.arch }}-freetype mingw-w64-${{ matrix.config.arch }}-cmake mingw-w64-${{ matrix.config.arch }}-proj mingw-w64-${{ matrix.config.arch }}-shapelib mingw-w64-${{ matrix.config.arch }}-vtk mingw-w64-${{ matrix.config.arch }}-wxWidgets3.2 mingw-w64-${{ matrix.config.arch }}-gcc mingw-w64-${{ matrix.config.arch }}-make mingw-w64-${{ matrix.config.arch }}-bwidget mingw-w64-${{ matrix.config.arch }}-fmt mingw-w64-${{ matrix.config.arch }}-catch
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: build and create the installation package
+        id: build
         run: |
-          sudo dpkg --add-architecture i386
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86B72ED9
-          sudo add-apt-repository 'deb [arch=amd64] https://mirror.mxe.cc/repos/apt focal main'
-          sudo apt -qq update
-          sudo apt install -y --allow-downgrades libpcre2-8-0=10.34-7
-          sudo apt install -y wine32
-          sudo apt install -y texlive-binaries texlive-metapost libproj-dev libwxgtk3.0-gtk3-dev libvtk7-dev survex imagemagick ghostscript ninja-build
-          sudo apt install -y mxe-i686-w64-mingw32.static-binutils mxe-i686-w64-mingw32.static-bzip2 mxe-i686-w64-mingw32.static-expat mxe-i686-w64-mingw32.static-freetype-bootstrap mxe-i686-w64-mingw32.static-gcc mxe-i686-w64-mingw32.static-gettext mxe-i686-w64-mingw32.static-glib mxe-i686-w64-mingw32.static-harfbuzz mxe-i686-w64-mingw32.static-jpeg mxe-i686-w64-mingw32.static-libiconv mxe-i686-w64-mingw32.static-libpng mxe-i686-w64-mingw32.static-tiff mxe-i686-w64-mingw32.static-vtk mxe-i686-w64-mingw32.static-wxwidgets mxe-i686-w64-mingw32.static-xz mxe-i686-w64-mingw32.static-zlib mxe-i686-w64-mingw32.static-proj
-      - name: run build
-        run: |
-          export PATH=/usr/lib/mxe/usr/bin:$PATH
-          mkdir -p $HOME/.wine/drive_c/windows
-          echo -e "mpost-path /home/runner/work/therion-batteries/therion-batteries/bin/windows/mpost.exe\npdftex-path /home/runner/work/therion-batteries/therion-batteries/bin/windows/pdftex.exe\nidentify-path /home/runner/work/therion-batteries/therion-batteries/bin/identify.exe\nconvert-path /home/runner/work/therion-batteries/therion-batteries/bin/convert.exe" > $HOME/.wine/drive_c/windows/therion.ini
-          wget -qO - https://github.com/therion/therion/archive/master.tar.gz | tar -xz && mv therion-master ../therion
+          reg add HKCU\\Software\\Therion //v InstallDir //t REG_SZ //d "${THDIR}/therion-batteries"
+          mkdir -p $HOME/.therion
+          echo -e "mpost-path ${THDIR}/therion-batteries/bin/windows/mpost.exe\npdftex-path ${THDIR}/therion-batteries/bin/windows/pdftex.exe\nidentify-path ${THDIR}/therion-batteries/bin/identify.exe\nconvert-path ${THDIR}/therion-batteries/bin/convert.exe\n" > $HOME/.therion/therion.ini
+          wget -qO - https://github.com/therion/therion/archive/master.tar.gz | tar -xzf - && mv therion-master ../therion
           mkdir ../therion.bin
-          pushd ../therion.bin
-          i686-w64-mingw32.static-cmake -G Ninja \
-              -DMXE_USE_CCACHE=OFF \
-              -DCMAKE_CROSSCOMPILING_EMULATOR=wine \
-              -DBUILD_SHARED_LIBS=OFF ../therion
-          ninja
-          ninja samples
-          popd
-          wine InnoSetup/ISCC.exe therion.iss
+          cd ../therion.bin
+          cmake -G "MSYS Makefiles" -DCMAKE_CXX_FLAGS="-Werror" -DUSE_BUNDLED_SHAPELIB=ON ../therion
+          cmake --build . -j 4
+          mkdir -p ../proj-lib && cp -r ../therion-batteries/_proj/{proj-$(awk -F "=" '/version/{print $2}' innosetup.ini),proj-datumgrid}/. ../proj-lib
+          cmake --build . -t samples deploy -- -j 4
+          cd ../therion-batteries
+          InnoSetup/ISCC.exe therion.iss
