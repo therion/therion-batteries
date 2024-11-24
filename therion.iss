@@ -66,8 +66,8 @@ Source: ..\therion\samples\*.*; DestDir: {app}\samples; Flags: recursesubdirs
 [Icons]
 Name: "{group}\Loch"; Filename: {app}\loch.exe; IconFileName: {app}\loch.exe; WorkingDir: {app}\samples
 Name: "{group}\XTherion"; Filename: {app}\bin\wish86.exe; Parameters: """{app}\xtherion.tcl"""; IconFileName: {app}\therion.exe; WorkingDir: {app}\samples
-Name: "{group}\The Therion Book"; Filename: "{app}\thbook.pdf"
-Name: "{group}\NEWS"; Filename: write.exe; Parameters: """{app}\CHANGES.txt"""
+Name: "{group}\The Therion Book"; Filename: "{app}\doc\thbook.pdf"
+Name: "{group}\NEWS"; Filename: write.exe; Parameters: """{app}\doc\CHANGES.txt"""
 Name: "{group}\Uninstall Therion"; Filename: {uninstallexe}
 
 [Languages]
