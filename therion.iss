@@ -25,7 +25,7 @@ ArchitecturesAllowed=x64
 
 [Files]
 
-Source: ..\therion.bin\therion.exe; DestDir: {app}; BeforeInstall: DeleteBatteries
+Source: ..\therion.bin\therion.exe; DestDir: {app}
 Source: ..\therion\therion.ini; DestDir: {app}; Flags: onlyifdoesntexist uninsneveruninstall
 Source: ..\therion\therion.ini; DestDir: {app}; Destname: therion.new.ini
 
@@ -33,10 +33,8 @@ Source: ..\therion.bin\xtherion\xtherion.tcl; DestDir: {app}
 Source: ..\therion\xtherion\xtherion.ini; DestDir: {app}; Flags: onlyifdoesntexist uninsneveruninstall
 Source: ..\therion\xtherion\xtherion.ini; DestDir: {app}; Destname: xtherion.new.ini
 
-Source: bin\*.*; DestDir: {app}\bin
+Source: bin\*.*; DestDir: {app}\bin; Flags: recursesubdirs
 Source: lib\*.*; DestDir: {app}\lib; Flags: recursesubdirs
-
-Source: bin\windows\*.*; DestDir: {app}\bin\windows
 Source: texmf\*.*; DestDir: {app}\texmf; Flags: recursesubdirs
 
 #define proj_ver Int(ReadIni(SourcePath+'../therion.bin/innosetup.ini', 'PROJ', 'version', '0'),0)
@@ -109,11 +107,9 @@ Root: "HKA"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "TeX"; Val
 Root: "HKA"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "ImageMagick"; ValueData: "1"; Flags: uninsdeletekey
 Root: "HKA"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "AppCtrl"; ValueData: "1"; Flags: uninsdeletekey
 
-[Code]
+[InstallDelete]
 
-procedure DeleteBatteries;
-begin
-  DelTree(ExpandConstant('{app}\bin'), true, true, true);
-  DelTree(ExpandConstant('{app}\lib'), true, true, true);
-  DelTree(ExpandConstant('{app}\texmf'), true, true, true);
-end;
+Type: filesandordirs; Name: "{app}\bin"
+Type: filesandordirs; Name: "{app}\lib"
+Type: filesandordirs; Name: "{app}\texmf"
+Type: files; Name: "{app}\*.dll"
