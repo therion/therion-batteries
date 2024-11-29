@@ -26,11 +26,11 @@ ArchitecturesAllowed=x64
 [Files]
 
 Source: ..\therion.bin\therion.exe; DestDir: {app}; BeforeInstall: DeleteBatteries
-Source: ..\therion\therion.ini; DestDir: {app}; Flags: onlyifdoesntexist
+Source: ..\therion\therion.ini; DestDir: {app}; Flags: onlyifdoesntexist uninsneveruninstall
 Source: ..\therion\therion.ini; DestDir: {app}; Destname: therion.new.ini
 
 Source: ..\therion.bin\xtherion\xtherion.tcl; DestDir: {app}
-Source: ..\therion\xtherion\xtherion.ini; DestDir: {app}; Flags: onlyifdoesntexist
+Source: ..\therion\xtherion\xtherion.ini; DestDir: {app}; Flags: onlyifdoesntexist uninsneveruninstall
 Source: ..\therion\xtherion\xtherion.ini; DestDir: {app}; Destname: xtherion.new.ini
 
 Source: bin\*.*; DestDir: {app}\bin
