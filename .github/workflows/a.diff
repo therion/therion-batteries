@@ -1,0 +1,52 @@
+1,2c1,2
+< name: Build
+< on: [push, pull_request]
+---
+> name: Installer
+> on: push
+4c4
+<   Windows:
+---
+>   Windows_installer:
+12a13,15
+>     outputs:
+>       THID: ${{ steps.build.outputs.THID_out }}
+>       git_branch: ${{ steps.build.outputs.git_branch }}
+14,15c17
+<       THDIR: d:/a/therion-batteries
+<       PROJ_LIB: d:/a/therion-batteries/proj-lib
+---
+>       THDIR: d:/a/therion
+22c24,26
+<       - uses: actions/checkout@v3
+---
+>       - name: prevent git EOL conversion
+>         run: git config --global core.autocrlf input
+>       - uses: actions/checkout@v4
+24a29,31
+>       - name: Fetch tags (relevant for forks only)
+>         if: github.repository != 'therion/therion'
+>         run: git fetch https://github.com/therion/therion tag 'v*'
+31c38,43
+<           wget -qO - https://github.com/therion/therion/archive/master.tar.gz | tar -xzf - && mv therion-master ../therion
+---
+>           wget -qO - https://github.com/therion/therion-batteries/archive/master.tar.gz | tar -xzf - && mv therion-batteries-master ../therion-batteries
+>           if ${{startsWith(github.ref, 'refs/tags/v')}}; then THID=${GITHUB_REF##*/}; else THID=$(git rev-parse --short HEAD); fi
+>           echo "THID_out=$THID" >> $GITHUB_OUTPUT
+>           BRANCH_FULL=$(git branch -r --contains ${{ github.ref }})
+>           BRANCH=${BRANCH_FULL##*/}
+>           echo "git_branch=$BRANCH" >> $GITHUB_OUTPUT
+36c48
+<           mkdir -p ../proj-lib && cp -r ../therion-batteries/_proj/{proj-$(awk -F "=" '/version/{print $2}' innosetup.ini),proj-datumgrid}/. ../proj-lib
+---
+>           cp -r ../therion-batteries/_proj/{proj-$(awk -F "=" '/version/{print $2}' innosetup.ini),proj-datumgrid}/ ../therion-batteries/lib/
+39a52,60
+>           cd ../therion.bin
+>           mv therion-setup.exe therion-setup-$THID.exe
+>           mv thbook/thbook.pdf thbook-$THID.pdf
+>       - uses: actions/upload-artifact@v4
+>         with:
+>           name: therion-setup-msys2-${{ steps.build.outputs.THID_out }}
+>           path: |
+>             ${{ env.THDIR }}/therion.bin/therion-setup-${{ steps.build.outputs.THID_out }}.exe
+>             ${{ env.THDIR }}/therion.bin/thbook-${{ steps.build.outputs.THID_out }}.pdf
