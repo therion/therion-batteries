@@ -53,8 +53,8 @@ MPXMAINCMD = "$SELFAUTOLOC/pdftex.exe" --output-format=dvi
 % 
 % 
 main_memory =			1500000 % words of inimemory available; also applies to inimf&mp
-extra_mem_bot    =		0 % extra high memory for chars, tokens, etc.
-extra_mem_top    =		2000000 % extra low memory for boxes, glue, breakpoints, etc.
+extra_mem_top    =		4000000 % extra high memory for chars, tokens, etc.
+extra_mem_bot    =		0 % extra low memory for boxes, glue, breakpoints, etc.
 
 % Words of font info for TeX (total size of all TFM files, approximately). 
 font_mem_size =			1000000
