@@ -312,5 +312,6 @@ glyphtounicode.tex
 
 ./web2c:
 cp8bit.tcx
+luatex.fmt
 pdftex.fmt
 texmf.cnf
