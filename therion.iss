@@ -40,8 +40,6 @@ Source: texmf\*.*; DestDir: {app}\texmf; Flags: recursesubdirs
 #define proj_ver Int(ReadIni(SourcePath+'../therion.bin/innosetup.ini', 'PROJ', 'version', '0'),0)
 #if proj_ver == 0
   #error Could not determine PROJ version
-#elif proj_ver <= 6
-  Source: _proj\proj-datumgrid\*.*; DestDir: {app}\lib\proj-{#proj_ver};
 #endif
 Source: _proj\proj-thgrid\*.*; DestDir: {app}\lib\proj-{#proj_ver};
 Source: _proj\proj-{#proj_ver}\*.*; DestDir: {app}\lib\proj-{#proj_ver};
