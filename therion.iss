@@ -102,7 +102,6 @@ Root: "HKA"; Subkey: "SOFTWARE\Classes\LochFile\shell\open\command"; ValueType: 
 Root: "HKA"; Subkey: "SOFTWARE\Therion"; ValueType: string; ValueName: "InstallDir"; ValueData: "{app}"; Flags: uninsdeletekey
 Root: "HKA"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "TclTk"; ValueData: "1"; Flags: uninsdeletekey
 Root: "HKA"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "TeX"; ValueData: "3"; Flags: uninsdeletekey
-Root: "HKA"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "ImageMagick"; ValueData: "1"; Flags: uninsdeletekey
 Root: "HKA"; Subkey: "SOFTWARE\Therion"; ValueType: dword; ValueName: "AppCtrl"; ValueData: "1"; Flags: uninsdeletekey
 
 [InstallDelete]
