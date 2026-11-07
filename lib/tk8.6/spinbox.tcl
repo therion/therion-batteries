@@ -200,18 +200,18 @@ bind Spinbox <<SelectAll>> {
 bind Spinbox <<SelectNone>> {
     %W selection clear
 }
-bind Spinbox <KeyPress> {
+bind Spinbox <Key> {
     ::tk::EntryInsert %W %A
 }
 
-# Ignore all Alt, Meta, and Control keypresses unless explicitly bound.
+# Ignore all Alt, Meta, Control, and Mod4 keypresses unless explicitly bound.
 # Otherwise, if a widget binding for one of these is defined, the
-# <KeyPress> class binding will also fire and insert the character,
+# <Key> class binding will also fire and insert the character,
 # which is wrong.  Ditto for Escape, Return, and Tab.
 
-bind Spinbox <Alt-KeyPress> {# nothing}
-bind Spinbox <Meta-KeyPress> {# nothing}
-bind Spinbox <Control-KeyPress> {# nothing}
+bind Spinbox <Alt-Key> {# nothing}
+bind Spinbox <Meta-Key> {# nothing}
+bind Spinbox <Control-Key> {# nothing}
 bind Spinbox <Escape> {# nothing}
 bind Spinbox <Return> {# nothing}
 bind Spinbox <KP_Enter> {# nothing}
@@ -219,7 +219,8 @@ bind Spinbox <Tab> {# nothing}
 bind Spinbox <Prior> {# nothing}
 bind Spinbox <Next> {# nothing}
 if {[tk windowingsystem] eq "aqua"} {
-    bind Spinbox <Command-KeyPress> {# nothing}
+    bind Spinbox <Command-Key> {# nothing}
+    bind Spinbox <Mod4-Key> {# nothing}
 }
 
 # On Windows, paste is done using Shift-Insert.  Shift-Insert already
@@ -433,13 +434,23 @@ proc ::tk::spinbox::ButtonUp {w x y} {
 
     # Priv(relief) may not exist if the ButtonUp is not paired with
     # a preceding ButtonDown
+    #
     if {[info exists Priv(element)] && [info exists Priv(relief)] && \
 	    [string match "button*" $Priv(element)]} {
 	if {[info exists Priv(repeated)] && !$Priv(repeated)} {
 	    $w invoke $Priv(element)
 	}
-	$w configure -$Priv(element)relief $Priv(relief)
-	$w selection element none
+
+	# If the value of the -command option is a nonempty string then
+	# the "$w invoke $Priv(element)" line above triggers an invocation
+	# of that command, which in turn, as a side effect, might set
+	# Priv(element) to "entry" (see bug [fe5549bad8]).  Guard against
+	# such cases by checking the value of Priv(element) again.
+	#
+	if {[string match "button*" $Priv(element)]} {
+	    $w configure -$Priv(element)relief $Priv(relief)
+	    $w selection element none
+	}
     }
 }
 
